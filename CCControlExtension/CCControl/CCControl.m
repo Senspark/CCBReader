@@ -121,6 +121,9 @@
 @synthesize color                   = color_;
 @synthesize opacityModifyRGB        = opacityModifyRGB_;
 
+@synthesize displayedColor          = displayedColor_;
+@synthesize displayedOpacity        = displayedOpacity_;
+
 - (void)dealloc
 {
     [dispatchBlockTable_    release];
@@ -215,6 +218,31 @@
     for (CCNode<CCRGBAProtocol> *child in self.children)
     {
         [child setOpacityModifyRGB:opacityModifyRGB];
+    }
+}
+
+- (GLubyte) displayedOpacity {
+    return displayedOpacity_;
+}
+
+- (ccColor3B) displayedColor {
+    return displayedColor_;
+}
+
+- (void) updateDisplayedColor:(ccColor3B) parentColor {
+    displayedColor_.r = color_.r * parentColor.r / 255.0;
+    displayedColor_.g = color_.g * parentColor.g / 255.0;
+    displayedColor_.b = color_.b * parentColor.b / 255.0;
+    
+    for (CCNode<CCRGBAProtocol>* child in [self children]) {
+        [child setColor:displayedColor_];
+    }
+}
+
+- (void) updateDisplayedOpacity:(GLubyte) parentOpacity {
+    displayedOpacity_ = opacity_ * parentOpacity / 255.0;
+    for (CCNode<CCRGBAProtocol>* child in [self children]) {
+        [child setOpacity:displayedOpacity_];
     }
 }
 

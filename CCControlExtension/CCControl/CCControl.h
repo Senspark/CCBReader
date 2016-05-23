@@ -81,6 +81,9 @@ typedef void (^CCControlBlock) (id sender, CCControlEvent event);
     ccColor3B           color_;
     BOOL                opacityModifyRGB_;
     
+    GLubyte             displayedOpacity_;
+    ccColor3B           displayedColor_;
+    
     NSInteger           defaultTouchPriority_;
     
     CCControlState      state_;

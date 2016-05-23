@@ -39,6 +39,9 @@ enum positions
 @synthesize insetRight          = insetRight_;
 @synthesize preferedSize        = preferedSize_;
 
+@synthesize displayedOpacity    = displayedOpacity_;
+@synthesize displayedColor      = displayedColor_;
+
 - (void)dealloc
 {
     [topLeft        release];
@@ -66,6 +69,10 @@ enum positions
             [self updateWithBatchNode:batchnode rect:rect rotated:rotated capInsets:capInsets];
             _anchorPoint        = ccp(0.5f, 0.5f);
         }
+        
+        [self setColor:ccWHITE];
+        [self setOpacity:255];
+        
         positionsAreDirty_ = YES;
     }
     return self;
@@ -527,6 +534,7 @@ enum positions
 - (void)setColor:(ccColor3B)color
 {
     color_      = color;
+    displayedColor_ = color;
     
     for (CCNode<CCRGBAProtocol> *child in scale9Image.children)
     {
@@ -537,6 +545,7 @@ enum positions
 - (void)setOpacity:(GLubyte)opacity
 {
     opacity_    = opacity;
+    displayedOpacity_ = opacity;
     
     for (CCNode<CCRGBAProtocol> *child in scale9Image.children)
     {
@@ -551,6 +560,31 @@ enum positions
     for (CCNode<CCRGBAProtocol> *child in scale9Image.children)
     {
         [child setOpacityModifyRGB:boolean];
+    }
+}
+
+- (GLubyte) displayedOpacity {
+    return displayedOpacity_;
+}
+
+- (ccColor3B) displayedColor {
+    return displayedColor_;
+}
+
+- (void) updateDisplayedColor:(ccColor3B) parentColor {
+    displayedColor_.r = color_.r * parentColor.r / 255.0;
+    displayedColor_.g = color_.g * parentColor.g / 255.0;
+    displayedColor_.b = color_.b * parentColor.b / 255.0;
+    
+    for (CCNode<CCRGBAProtocol>* child in [scale9Image children]) {
+        [child setColor:displayedColor_];
+    }
+}
+
+- (void) updateDisplayedOpacity:(GLubyte) parentOpacity {
+    displayedOpacity_ = opacity_ * parentOpacity / 255.0;
+    for (CCNode<CCRGBAProtocol>* child in [scale9Image children]) {
+        [child setOpacity:displayedOpacity_];
     }
 }
 

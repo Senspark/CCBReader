@@ -324,7 +324,7 @@ enum
     [titleLabelDispatchTable_ setObject:label forKey:stateNumber];
     [label setVisible:NO];
     [label setAnchorPoint:ccp (0.5f, 0.5f)];
-    [self addChild:label z:1];
+    [self addChild:label z:-1];
     
     // If the current state if equal to the given state we update the layout
     if (state_ == state)
@@ -424,7 +424,7 @@ enum
     
     [backgroundSpriteDispatchTable_ setObject:sprite forKey:stateNumber];
     [sprite setVisible:NO];
-    [self addChild:sprite];
+    [self addChild:sprite z:-2];
     
     if (preferedSize_.width != 0 || preferedSize_.height != 0)
     {

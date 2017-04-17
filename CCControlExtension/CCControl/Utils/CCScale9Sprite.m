@@ -196,7 +196,9 @@ enum positions
     ccColor3B color = color_;
     
     // Release old sprites
-    [self removeAllChildrenWithCleanup:YES];
+    // [self removeAllChildrenWithCleanup:YES];
+    // Only remove the spriteBatchNode.
+    [self removeChild:scale9Image cleanup:YES];
     
     [centre         release];
     [top            release];
@@ -453,7 +455,7 @@ enum positions
     }
     
     [self setContentSize:rect.size];
-    [self addChild:scale9Image];
+    [self addChild:scale9Image z:-1];
     
     if (spritesGenerated_)
     {
